@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace LMS.Areas.Identity.Pages.Account
@@ -200,6 +201,7 @@ namespace LMS.Areas.Identity.Pages.Account
                            .Union(db.Administrators.Select(a => a.UId))
                            .ToList();
 
+            // Find the max UID number
             uint maxNum = 0;
             foreach (var id in allIds)
                 if (id.Length == 8 && id[0] == 'u' && uint.TryParse(id.Substring(1), out uint n))
@@ -208,37 +210,37 @@ namespace LMS.Areas.Identity.Pages.Account
             string newUId = "u" + (maxNum + 1).ToString("D7");
             DateOnly dob  = DateOnly.FromDateTime(DOB);
 
-            switch (role)
+            if (role == "Student")
             {
-                case "Student":
-                    db.Students.Add(new Student
-                    {
-                        UId   = newUId,
-                        FName = firstName,
-                        LName = lastName,
-                        Dob   = dob,
-                        Major = departmentAbbrev
-                    });
-                    break;
-                case "Professor":
-                    db.Professors.Add(new Professor
-                    {
-                        UId     = newUId,
-                        FName   = firstName,
-                        LName   = lastName,
-                        Dob     = dob,
-                        WorksIn = departmentAbbrev
-                    });
-                    break;
-                case "Administrator":
-                    db.Administrators.Add(new Administrator
-                    {
-                        UId   = newUId,
-                        FName = firstName,
-                        LName = lastName,
-                        Dob   = dob
-                    });
-                    break;
+                db.Students.Add(new Student
+                {
+                    UId   = newUId,
+                    FName = firstName,
+                    LName = lastName,
+                    Dob   = dob,
+                    Major = departmentAbbrev
+                });
+            }
+            else if (role == "Professor")
+            {
+                db.Professors.Add(new Professor
+                {
+                    UId     = newUId,
+                    FName   = firstName,
+                    LName   = lastName,
+                    Dob     = dob,
+                    WorksIn = departmentAbbrev
+                });
+            }
+            else if (role == "Administrator")
+            {
+                db.Administrators.Add(new Administrator
+                {
+                    UId   = newUId,
+                    FName = firstName,
+                    LName = lastName,
+                    Dob   = dob
+                });
             }
 
             db.SaveChanges();

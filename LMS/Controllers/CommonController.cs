@@ -35,8 +35,6 @@ namespace LMS.Controllers
             return Json(depts.ToArray());
         }
 
-
-
         /// <summary>
         /// Returns a JSON array representing the course catalog.
         /// Each object in the array should have the following fields:
@@ -122,7 +120,6 @@ namespace LMS.Controllers
             return Content(query.FirstOrDefault() ?? "");
         }
 
-
         /// <summary>
         /// This method does NOT return JSON. It returns plain text (containing html).
         /// Use "return Content(...)" to return plain text.
@@ -191,7 +188,6 @@ namespace LMS.Controllers
 
             return Json(new { success = false });
         }
-
 
         /*******End code to modify********/
     }
