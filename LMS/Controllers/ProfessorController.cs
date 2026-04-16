@@ -155,13 +155,7 @@ namespace LMS_CustomIdentity.Controllers
                         join ac in db.AssignmentCategories on cl.ClassId equals ac.InClass
                         where category == null || ac.Name == category
                         join a in db.Assignments on ac.CategoryId equals a.Category
-                        select new
-                        {
-                            aname       = a.Name,
-                            cname       = ac.Name,
-                            due         = a.Due,
-                            submissions = db.Submissions.Count(s => s.Assignment == a.AssignmentId)
-                        };
+                        select new { aname = a.Name, cname = ac.Name, due = a.Due, submissions = db.Submissions.Count(s => s.Assignment == a.AssignmentId) };
             return Json(query.ToArray());
         }
 
@@ -412,18 +406,18 @@ namespace LMS_CustomIdentity.Controllers
 
             double finalPct = totalScaled * (100.0 / totalWeight);
 
-            if (finalPct >= 93) return "A";
-            if (finalPct >= 90) return "A-";
-            if (finalPct >= 87) return "B+";
-            if (finalPct >= 83) return "B";
-            if (finalPct >= 80) return "B-";
-            if (finalPct >= 77) return "C+";
-            if (finalPct >= 73) return "C";
-            if (finalPct >= 70) return "C-";
-            if (finalPct >= 67) return "D+";
-            if (finalPct >= 63) return "D";
-            if (finalPct >= 60) return "D-";
-            return "E";
+            if      (finalPct >= 93) return "A";
+            else if (finalPct >= 90) return "A-";
+            else if (finalPct >= 87) return "B+";
+            else if (finalPct >= 83) return "B";
+            else if (finalPct >= 80) return "B-";
+            else if (finalPct >= 77) return "C+";
+            else if (finalPct >= 73) return "C";
+            else if (finalPct >= 70) return "C-";
+            else if (finalPct >= 67) return "D+";
+            else if (finalPct >= 63) return "D";
+            else if (finalPct >= 60) return "D-";
+            else return "E";
         }
 
         /*******End code to modify********/

@@ -83,13 +83,13 @@ namespace LMS.Controllers
                             from prof in profs.DefaultIfEmpty()
                             select new
                             {
-                                season   = cl.Season,
-                                year     = cl.Year,
+                                season = cl.Season,
+                                year = cl.Year,
                                 location = cl.Location,
-                                start    = cl.StartTime.ToString("HH:mm:ss"),
-                                end      = cl.EndTime.ToString("HH:mm:ss"),
-                                fname    = prof == null ? "" : prof.FName,
-                                lname    = prof == null ? "" : prof.LName
+                                start = cl.StartTime.ToString("HH:mm:ss"),
+                                end = cl.EndTime.ToString("HH:mm:ss"),
+                                fname = prof == null ? "" : prof.FName,
+                                lname = prof == null ? "" : prof.LName
                             };
             return Json(offerings.ToArray());
         }
@@ -117,7 +117,8 @@ namespace LMS.Controllers
                         join a in db.Assignments on ac.CategoryId equals a.Category
                         where a.Name == asgname
                         select a.Contents;
-            return Content(query.FirstOrDefault() ?? "");
+            string? contents = query.FirstOrDefault();
+            return Content(contents == null ? "" : contents);
         }
 
         /// <summary>
@@ -146,7 +147,8 @@ namespace LMS.Controllers
                         where a.Name == asgname
                         join s in db.Submissions on new { A = a.AssignmentId, B = uid } equals new { A = s.Assignment, B = s.Student }
                         select s.SubmissionContents;
-            return Content(query.FirstOrDefault() ?? "");
+            string? content = query.FirstOrDefault();
+            return Content(content == null ? "" : content);
         }
 
 
